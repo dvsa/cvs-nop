@@ -2,11 +2,35 @@
 
 Create NO-OP database locally
 
+## Script setup for Ubuntu distributions:
+A setup script is provided `nop-setup.sh` to install all dependencies, start a docker container, and run the liquibase changesets.
+
+
+## Manual setup:
+
 ### Prerequisites :
 
 - installed Liquibase
 - installed MySQL Database Software
 - installed MySQL Connector/J (https://dev.mysql.com/doc/connectors/en/connector-j-binary-installation.html)
+
+
+### 0. Database setup
+We rely on having a local database setup to run our liquibase changesets against. 
+
+This can be done using mysql directly or can be done with docker like so:
+`docker run --name local-mysql -e MYSQL_ROOT_PASSWORD=password -p3306:3306 -d mysql:8`
+
+The following known issues exist with this approach:
+1. The container spins up without error but you cannot connect to it.
+2. The container fails to start due to another process using port 3306 on your machine.
+
+Both of these issues have a common fix. That is to use another port for our database.
+The below command is identical to the one above except we use the **host** port 3307 as opposed to 3306.
+`docker run --name local-mysql -e MYSQL_ROOT_PASSWORD=password -p3307:3306 -d mysql:8`
+
+When then connecting to this database, be that with MySQL workbench or liquibase itself you will need to change the port used there from 3306 to 3307.
+- If this does not resolve the issue and you are still having issues with port's clashing then you can run `sudo lsof -i :<PORT>` to see what procees(es) are using port <PORT>.
 
 ### 1. Liquibase Steps
 
@@ -21,8 +45,9 @@ username: root
 password: password
 classpath: mysql-connector-java-8.0.23.jar
 ```
+Note that if you had previously changed the port that the database listens on in section 0. then you will need to reflect this change in your liquibase.properties file.
 
-B. Once database is up and running (database user needs to have privileges in order to create database objects)
+B. Once database is up and running(database user needs to have privileges in order to create database objects)
 
 Run: ``liquibase --defaultsFile liquibase.properties --changeLogFile changelog-master.xml update``
 
@@ -32,7 +57,6 @@ Running without configuration file (provide missing paths / user credentials):
 
 Quick step to instantiate database in Docker:
 
-`docker run --name local-mysql -e MYSQL_ROOT_PASSWORD=password -p3306:3306 -d mysql:5.7`
 
 ### 2. Schema Inventory
 
