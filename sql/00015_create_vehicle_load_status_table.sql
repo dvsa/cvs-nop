@@ -29,4 +29,19 @@ CREATE TABLE IF NOT EXISTS `vehicle_load_status` (
     `other_reason_for_not_loading` VARCHAR(200) NULL,
     `partially_laden_reason` VARCHAR(200) NULL,
     PRIMARY KEY (`id`)
+    FOREIGN KEY (`load_status_id`)
+        REFERENCES load_status (`id`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+
+    FOREIGN KEY (`unladen_body_type_id`)
+        REFERENCES unladen_body_type (`id`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+
+    FOREIGN KEY (`reason_for_not_loading_id`)
+        REFERENCES reason_for_not_loading (`id`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+
 ) ENGINE = InnoDB;
