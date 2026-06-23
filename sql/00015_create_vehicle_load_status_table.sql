@@ -1,28 +1,28 @@
 --liquibase formatted sql
 --changeset liquibase:addColumn -multiple-tables:1 splitStatements:true endDelimiter:; context:dev
 
-CREATE TABLE IF NOT EXISTS `load_status` (
+CREATE TABLE IF NOT EXISTS `vehicle_load_status` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `load_status` VARCHAR(30) NULL,
+    `type` VARCHAR(30) NULL,
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `idx_load_status_uq` (`load_status`)
+    UNIQUE INDEX `idx_vehicle_load_status_type_uq` (`type`)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `unladen_body_type` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `unladen_body_type` VARCHAR(27) NULL,
+    `type` VARCHAR(27) NULL,
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `idx_unladen_body_type_uq` (`unladen_body_type`)
+    UNIQUE INDEX `idx_unladen_body_type_type_uq` (`type`)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `reason_for_not_loading` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `reason_for_not_loading` VARCHAR(20) NULL,
+    `type` VARCHAR(20) NULL,
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `idx_reason_for_not_loading_uq` (`reason_for_not_loading`)
+    UNIQUE INDEX `idx_reason_for_not_loading_type_uq` (`type`)
 ) ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `vehicle_load_status` (
+CREATE TABLE IF NOT EXISTS `load_status` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `test_type_id` BIGINT UNSIGNED NOT NULL,
     `load_status_id` BIGINT UNSIGNED NULL,
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_load_status` (
     `partially_laden_reason` VARCHAR(200) NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`load_status_id`)
-        REFERENCES load_status (`id`)
+        REFERENCES vehicle_load_status (`id`)
         ON DELETE NO ACTION
         ON UPDATE NO ACTION,
 
@@ -47,6 +47,6 @@ CREATE TABLE IF NOT EXISTS `vehicle_load_status` (
         ON DELETE NO ACTION
         ON UPDATE NO ACTION,
     
-    UNIQUE INDEX `idx_vehicle_load_status_uq` (`test_type_id`, `load_status_id`, `unladen_body_type_id`, `other_unladen_body_type`, `reason_for_not_loading_id`, `other_reason_for_not_loading`, `partially_laden_reason`)
+    UNIQUE INDEX `idx_vehicle_load_status_uq` (`test_type_id` ASC, `load_status_id` ASC, `unladen_body_type_id` ASC, `other_unladen_body_type`, `reason_for_not_loading_id`, `other_reason_for_not_loading`, `partially_laden_reason`)
 
 ) ENGINE = InnoDB;
