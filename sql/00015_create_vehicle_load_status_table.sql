@@ -25,14 +25,14 @@ CREATE TABLE IF NOT EXISTS `reason_for_not_loading` (
 CREATE TABLE IF NOT EXISTS `load_status` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `test_type_id` BIGINT UNSIGNED NOT NULL,
-    `load_status_id` BIGINT UNSIGNED NULL,
+    `vehicle_load_status_id` BIGINT UNSIGNED NULL,
     `unladen_body_type_id` BIGINT UNSIGNED NULL,
     `other_unladen_body_type` VARCHAR(200) NULL,
     `reason_for_not_loading_id` BIGINT UNSIGNED NULL,
     `other_reason_for_not_loading` VARCHAR(200) NULL,
     `partially_laden_reason` VARCHAR(200) NULL,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`load_status_id`)
+    FOREIGN KEY (`vehicle_load_status_id`)
         REFERENCES vehicle_load_status (`id`)
         ON DELETE NO ACTION
         ON UPDATE NO ACTION,
@@ -47,6 +47,6 @@ CREATE TABLE IF NOT EXISTS `load_status` (
         ON DELETE NO ACTION
         ON UPDATE NO ACTION,
     
-    UNIQUE INDEX `idx_vehicle_load_status_uq` (`test_type_id` ASC, `load_status_id` ASC, `unladen_body_type_id` ASC, `other_unladen_body_type`, `reason_for_not_loading_id`, `other_reason_for_not_loading`, `partially_laden_reason`)
+    UNIQUE INDEX `idx_vehicle_load_status_uq` (`test_type_id` ASC, `vehicle_load_status_id` ASC, `unladen_body_type_id` ASC, `other_unladen_body_type` ASC, `reason_for_not_loading_id` ASC, `other_reason_for_not_loading` ASC, `partially_laden_reason` ASC)
 
 ) ENGINE = InnoDB;
