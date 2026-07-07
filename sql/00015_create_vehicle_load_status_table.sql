@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `reason_for_not_loading` (
 
 CREATE TABLE IF NOT EXISTS `load_status` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `test_result_record_id` BIGINT UNSIGNED NOT NULL,
+    `test_result_id` BIGINT UNSIGNED NOT NULL,
     `vehicle_load_status_id` BIGINT UNSIGNED NULL,
     `unladen_body_type_id` BIGINT UNSIGNED NULL,
     `other_unladen_body_type` VARCHAR(200) NULL,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `load_status` (
     `other_reason_for_not_loading` VARCHAR(200) NULL,
     `partially_laden_reason` VARCHAR(200) NULL,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`test_result_record_id`)
+    FOREIGN KEY (`test_result_id`)
         REFERENCES test_result (`id`)
         ON DELETE NO ACTION
         ON UPDATE NO ACTION,
