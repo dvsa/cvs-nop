@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset liquibase:addColumn -multiple-tables:1 splitStatements:true endDelimiter:; context:dev
+--changeset liquibase:addTables -multiple-tables:1 splitStatements:true endDelimiter:; context:dev
 
 CREATE TABLE IF NOT EXISTS `vehicle_load_status` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -52,6 +52,6 @@ CREATE TABLE IF NOT EXISTS `load_status` (
         ON DELETE NO ACTION
         ON UPDATE NO ACTION,
     
-    UNIQUE INDEX `idx_vehicle_load_status_uq` (`test_result_id` ASC, `vehicle_load_status_id` ASC, `unladen_body_type_id` ASC, `other_unladen_body_type` ASC, `reason_for_not_loading_id` ASC, `other_reason_for_not_loading` ASC, `partially_laden_reason` ASC)
+    UNIQUE INDEX `idx_load_status_test_result_id_uq` (`test_result_id` ASC)
 
 ) ENGINE = InnoDB;
